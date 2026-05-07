@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BIFE 계정 및 데이터 삭제 안내</title>
+<meta name="description" content="BIFE(바이프) 앱 계정 삭제 절차와 삭제되는 데이터 항목, 보존 기간을 안내합니다.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-top:#A6D4D6;
+    --bg-bot:#5CBFB9;
+    --ink:#1F2A24;
+    --ink-soft:#5b6660;
+    --accent:#E97A4A;
+    --accent-2:#2F5E4E;
+    --pill:#1F4A3A;
+    --card-bg:#fff;
+    --border:#E5E0D2;
+    --danger:#C94A3A;
+    --danger-bg:#FBE9E5;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;background:var(--bg-top)}
+  body{
+    background:linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bot) 100%);
+    background-attachment:fixed;
+    color:var(--ink);
+    font-family:"Noto Sans KR",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.6;
+    min-height:100vh;
+    position:relative;
+    overflow-x:hidden;
+  }
+  .bg-deco{
+    position:fixed;
+    border-radius:22px;
+    background:rgba(255,255,255,.18);
+    pointer-events:none;
+    z-index:0;
+  }
+  .bg-deco.tl{top:5%;left:5%;width:78px;height:78px}
+  .bg-deco.tr{top:9%;right:6%;width:62px;height:62px;background:rgba(255,255,255,.14)}
+  .bg-deco.bl{bottom:7%;left:7%;width:60px;height:60px;background:rgba(255,255,255,.16)}
+  .bg-deco.br{bottom:4%;right:6%;width:96px;height:96px;background:rgba(255,255,255,.20)}
+  @media (max-width:600px){
+    .bg-deco.tl{width:54px;height:54px}
+    .bg-deco.tr{width:42px;height:42px}
+    .bg-deco.bl{width:42px;height:42px}
+    .bg-deco.br{width:66px;height:66px}
+  }
+  .container{
+    max-width:760px;
+    margin:0 auto;
+    padding:60px 24px 80px;
+    position:relative;
+    z-index:1;
+  }
+
+  header{text-align:center;margin-bottom:56px}
+  .logo{
+    display:inline-flex;align-items:center;gap:14px;
+    background:var(--accent-2);color:#fff;
+    padding:14px 28px;border-radius:999px;
+    font-weight:800;font-size:22px;letter-spacing:-.01em;
+    margin-bottom:24px;
+    box-shadow:0 12px 32px rgba(47,94,78,.25);
+  }
+  .logo .ico{font-size:24px}
+  h1{
+    font-size:44px;font-weight:900;letter-spacing:-.02em;
+    margin-bottom:14px;line-height:1.2;
+  }
+  h1 .accent{
+    color:var(--accent);
+    background-image:linear-gradient(transparent 64%, rgba(233,122,74,.30) 64%);
+    background-repeat:no-repeat;padding:0 6px;
+  }
+  .subtitle{
+    font-size:18px;color:var(--ink-soft);
+    max-width:560px;margin:0 auto;
+  }
+
+  section{margin-bottom:48px}
+  h2{
+    font-size:26px;font-weight:800;letter-spacing:-.01em;
+    margin-bottom:20px;display:flex;align-items:center;gap:10px;
+  }
+  h2 .num{
+    width:36px;height:36px;border-radius:50%;
+    background:var(--accent-2);color:#fff;
+    display:inline-flex;align-items:center;justify-content:center;
+    font-size:18px;font-weight:800;
+  }
+
+  .card{
+    background:var(--card-bg);
+    border-radius:20px;padding:32px;
+    border:1.5px solid var(--border);
+    box-shadow:0 18px 44px rgba(31,42,36,.08);
+    font-size:15px;line-height:1.75;color:var(--ink-soft);
+  }
+  .card h3{
+    color:var(--ink);font-size:17px;font-weight:800;
+    margin-top:24px;margin-bottom:8px;
+  }
+  .card h3:first-child{margin-top:0}
+  .card ul,.card ol{padding-left:22px;margin:8px 0}
+  .card li{margin-bottom:6px}
+  .card strong{color:var(--ink);font-weight:700}
+  .card a{color:var(--accent);font-weight:700;text-decoration:none}
+  .card a:hover{text-decoration:underline}
+
+  .steps{
+    list-style:none;padding-left:0;margin:0;counter-reset:step;
+  }
+  .steps li{
+    counter-increment:step;
+    position:relative;padding-left:46px;
+    margin-bottom:14px;
+    color:var(--ink);font-weight:600;
+  }
+  .steps li::before{
+    content:counter(step);
+    position:absolute;left:0;top:-2px;
+    width:32px;height:32px;border-radius:50%;
+    background:var(--accent-2);color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:14px;
+  }
+  .steps li small{
+    display:block;color:var(--ink-soft);
+    font-weight:400;font-size:14px;margin-top:2px;
+  }
+
+  .danger-card{
+    background:var(--danger-bg);
+    border:1.5px solid var(--danger);
+    border-radius:16px;padding:18px 22px;
+    margin-top:18px;
+  }
+  .danger-card p{
+    color:var(--danger);font-weight:700;font-size:14px;
+    margin:0;
+  }
+
+  .info-card{
+    background:#EAF3EE;
+    border-radius:16px;padding:18px 22px;
+    border-left:5px solid var(--accent-2);
+    margin-top:18px;
+  }
+  .info-card p{
+    font-size:14px;color:var(--ink-soft);
+    margin:0;line-height:1.7;
+  }
+  .info-card strong{color:var(--ink);font-weight:700}
+
+  table{
+    width:100%;border-collapse:collapse;
+    margin:12px 0 4px;font-size:14px;
+  }
+  table th,table td{
+    padding:10px 12px;text-align:left;
+    border-bottom:1px solid #F0EDE3;
+    vertical-align:top;
+  }
+  table th{
+    color:var(--ink);font-weight:700;
+    background:#F7F4EC;
+  }
+  table tr:last-child td{border-bottom:none}
+
+  .contact-card{
+    background:var(--card-bg);
+    border-radius:20px;padding:24px;
+    border:1.5px solid var(--border);
+    box-shadow:0 12px 32px rgba(31,42,36,.06);
+    display:flex;align-items:center;gap:18px;
+  }
+  .contact-icon{
+    width:52px;height:52px;border-radius:14px;
+    background:#FBEBD8;color:var(--accent);
+    display:flex;align-items:center;justify-content:center;
+    font-size:24px;flex-shrink:0;
+  }
+  .contact-info{flex:1;min-width:0}
+  .contact-label{
+    font-size:13px;color:var(--ink-soft);
+    font-weight:600;letter-spacing:.05em;text-transform:uppercase;
+    margin-bottom:2px;
+  }
+  .contact-value{
+    font-size:18px;font-weight:700;
+    color:var(--ink);text-decoration:none;
+    word-break:break-all;
+  }
+  .contact-value:hover{color:var(--accent)}
+
+  footer{
+    text-align:center;
+    margin-top:64px;padding-top:32px;
+    border-top:1.5px solid rgba(255,255,255,.4);
+    color:var(--ink-soft);font-size:13px;
+  }
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 8px}
+  footer a:hover{color:var(--accent)}
+  .copyright{margin-top:10px;font-size:12px;opacity:.7}
+
+  @media (max-width:600px){
+    .container{padding:40px 20px 60px}
+    h1{font-size:32px}
+    .subtitle{font-size:15px}
+    h2{font-size:22px}
+    .card,.contact-card{padding:22px}
+    .steps li{padding-left:42px}
+    .steps li::before{width:28px;height:28px;font-size:13px}
+    table th,table td{padding:8px 10px;font-size:13px}
+  }
+</style>
+</head>
+<body>
+<div class="bg-deco tl"></div>
+<div class="bg-deco tr"></div>
+<div class="bg-deco bl"></div>
+<div class="bg-deco br"></div>
+
+<div class="container">
+
+  <header>
+    <div class="logo"><span class="ico">🥬</span> BIFE</div>
+    <h1>계정 및 데이터 <span class="accent">삭제 안내</span></h1>
+    <p class="subtitle">
+      바이프(BIFE) 앱의 계정 삭제 절차와 삭제되는 데이터 항목,<br>
+      보존이 필요한 정보의 보유 기간을 안내합니다.
+    </p>
+  </header>
+
+  <section>
+    <h2><span class="num">1</span> 앱 정보</h2>
+    <div class="card">
+      <h3>앱 이름</h3>
+      <p>바이프 (BIFE) — 냉장고 관리 + 가족 공유 + 레시피 추천</p>
+
+      <h3>개발사 / 운영자</h3>
+      <p><strong>상호:</strong> 바이프<br>
+         <strong>대표자:</strong> 노동훈<br>
+         <strong>문의 이메일:</strong> <a href="mailto:bitesafeteam@gmail.com">bitesafeteam@gmail.com</a></p>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">2</span> 앱 내에서 직접 삭제하기 (권장)</h2>
+    <div class="card">
+      <p>BIFE 앱은 사용자가 별도 절차 없이 <strong>앱 안에서 직접</strong> 회원 탈퇴 및 데이터 삭제를 진행할 수 있습니다.</p>
+      <ol class="steps">
+        <li>BIFE 앱 실행 후 로그인
+          <small>탈퇴 처리를 위해 로그인이 필요합니다.</small>
+        </li>
+        <li>하단 탭에서 <strong>「마이」</strong> 진입
+          <small>마이페이지(My) 화면으로 이동합니다.</small>
+        </li>
+        <li><strong>「계정 설정」</strong> 메뉴 선택
+          <small>프로필 정보 관리 화면입니다.</small>
+        </li>
+        <li>화면 하단의 <strong>「회원 탈퇴」</strong> 탭
+          <small>탈퇴 안내가 표시됩니다.</small>
+        </li>
+        <li>안내 확인 후 <strong>「탈퇴」</strong> 확정
+          <small>확정 즉시 서버에서 모든 개인정보가 영구 삭제됩니다.</small>
+        </li>
+      </ol>
+
+      <div class="danger-card">
+        <p>⚠️ 탈퇴는 즉시 처리되며 복구할 수 없습니다. 다른 가족 그룹 멤버와 공유 중이던 데이터도 본인 정보만 분리되어 삭제됩니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">3</span> 이메일로 삭제 요청하기</h2>
+    <div class="card">
+      <p>앱에 접근할 수 없거나 다른 사유로 직접 삭제가 어려운 경우, 아래 이메일로 요청해 주세요. 본인 확인 후 영업일 기준 <strong>3일 이내</strong>에 계정 및 데이터를 삭제 처리해 드립니다.</p>
+
+      <ol style="padding-left:22px;margin:14px 0">
+        <li>제목: <strong>[계정 삭제 요청]</strong></li>
+        <li>본문에 가입 시 사용한 <strong>이메일 또는 닉네임</strong> 기재</li>
+        <li>본인 확인을 위해 가입에 사용한 <strong>소셜 계정(Apple/Google/Kakao)</strong> 명시</li>
+      </ol>
+    </div>
+
+    <div style="margin-top:18px">
+      <a href="mailto:bitesafeteam@gmail.com?subject=%5B%EA%B3%84%EC%A0%95%20%EC%82%AD%EC%A0%9C%20%EC%9A%94%EC%B2%AD%5D" style="text-decoration:none">
+        <div class="contact-card">
+          <div class="contact-icon">✉️</div>
+          <div class="contact-info">
+            <div class="contact-label">계정 삭제 요청 이메일</div>
+            <span class="contact-value">bitesafeteam@gmail.com</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">4</span> 삭제되는 데이터</h2>
+    <div class="card">
+      <p>회원 탈퇴 또는 삭제 요청이 완료되면 다음 데이터가 <strong>서버에서 영구 삭제</strong>됩니다.</p>
+      <ul>
+        <li><strong>계정 정보</strong>: 이메일, 닉네임, 프로필 사진, 인증 식별자</li>
+        <li><strong>냉장고 데이터</strong>: 등록한 식재료, 수량, 구매일, 소비기한, 보관구역, 메모, 가격</li>
+        <li><strong>가계부 데이터</strong>: 등록한 지출/수입 기록, 카테고리, 메모</li>
+        <li><strong>레시피 관련 데이터</strong>: 레시피 평가, 즐겨찾기, 사용자 입력 레시피</li>
+        <li><strong>가족 그룹 정보</strong>: 그룹 멤버십(본인 정보), 초대 기록</li>
+        <li><strong>알림 / 디바이스 정보</strong>: 푸시 토큰, 디바이스 식별자, 알림 설정</li>
+        <li><strong>영수증 이미지</strong>: 인식 처리 후 즉시 폐기되며 별도 보관하지 않습니다</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">5</span> 보관되는 데이터 (법령 준수)</h2>
+    <div class="card">
+      <p>관련 법령에 따라 일부 정보는 분리 보관 후 보유 기간이 경과하면 자동으로 파기됩니다. 해당 정보는 통계·분석·마케팅 등 다른 용도로 사용되지 않습니다.</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>항목</th>
+            <th>보관 기간</th>
+            <th>법적 근거</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>계약·청약철회 등에 관한 기록</td>
+            <td>5년</td>
+            <td>전자상거래법</td>
+          </tr>
+          <tr>
+            <td>대금 결제 및 재화 등의 공급에 관한 기록</td>
+            <td>5년</td>
+            <td>전자상거래법</td>
+          </tr>
+          <tr>
+            <td>소비자 불만·분쟁 처리 기록</td>
+            <td>3년</td>
+            <td>전자상거래법</td>
+          </tr>
+          <tr>
+            <td>서비스 부정 이용 기록</td>
+            <td>1년</td>
+            <td>회사 내부 정책</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="info-card">
+        <p>💡 <strong>유료 결제 이력이 없는 경우</strong>에는 위 보관 항목이 발생하지 않으며, 탈퇴 즉시 모든 데이터가 영구 삭제됩니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">6</span> 자주 묻는 질문</h2>
+    <div class="card">
+      <h3>탈퇴하면 가족 그룹은 어떻게 되나요?</h3>
+      <p>탈퇴 회원이 그룹의 <strong>유일한 멤버</strong>였던 경우 그룹 자체가 함께 삭제됩니다. 다른 멤버가 있는 경우 그룹은 유지되고 탈퇴자의 데이터만 분리되어 삭제됩니다.</p>
+
+      <h3>일부 데이터만 삭제할 수 있나요?</h3>
+      <p>앱 내에서 식재료/가계부/레시피 평가 등 <strong>개별 데이터는 언제든 직접 삭제</strong> 가능합니다. 단, 계정은 유지하면서 일부 카테고리의 데이터만 일괄 삭제 요청을 원하시면 위 이메일로 문의해 주세요.</p>
+
+      <h3>탈퇴 후 같은 이메일로 재가입할 수 있나요?</h3>
+      <p>탈퇴 즉시 모든 정보가 삭제되므로, 같은 소셜 계정으로 재가입 시 <strong>새로운 신규 회원</strong>으로 처리됩니다. 이전 데이터는 복구되지 않습니다.</p>
+    </div>
+  </section>
+
+  <footer>
+    <div>
+      <a href="https://bitesafedev.github.io/bife-legal/privacy.html">개인정보처리방침</a> ·
+      <a href="https://bitesafedev.github.io/bife-legal/terms.html">이용약관</a> ·
+      <a href="https://bitesafedev.github.io/bife-legal/support.html">고객지원</a> ·
+      <a href="mailto:bitesafeteam@gmail.com">문의하기</a>
+    </div>
+    <div class="copyright">© 2026 BIFE (바이프). All rights reserved.</div>
+  </footer>
+
+</div>
+</body>
+</html>
