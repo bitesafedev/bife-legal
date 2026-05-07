@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BIFE 고객지원</title>
+<meta name="description" content="BIFE 냉장고 관리 앱의 고객지원 페이지입니다. 자주 묻는 질문과 문의 방법을 확인하세요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-top:#A6D4D6;
+    --bg-bot:#5CBFB9;
+    --ink:#1F2A24;
+    --ink-soft:#5b6660;
+    --accent:#E97A4A;
+    --accent-2:#2F5E4E;
+    --pill:#1F4A3A;
+    --card-bg:#fff;
+    --border:#E5E0D2;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;background:var(--bg-top)}
+  body{
+    background:linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bot) 100%);
+    background-attachment:fixed;
+    color:var(--ink);
+    font-family:"Noto Sans KR",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.6;
+    min-height:100vh;
+    position:relative;
+    overflow-x:hidden;
+  }
+  /* 스플래시 장식 사각형 — 4 모서리에 반투명 라운드 사각형 (fixed) */
+  .bg-deco{
+    position:fixed;
+    border-radius:22px;
+    background:rgba(255,255,255,.18);
+    pointer-events:none;
+    z-index:0;
+  }
+  .bg-deco.tl{top:5%;left:5%;width:78px;height:78px}
+  .bg-deco.tr{top:9%;right:6%;width:62px;height:62px;background:rgba(255,255,255,.14)}
+  .bg-deco.bl{bottom:7%;left:7%;width:60px;height:60px;background:rgba(255,255,255,.16)}
+  .bg-deco.br{bottom:4%;right:6%;width:96px;height:96px;background:rgba(255,255,255,.20)}
+  @media (max-width:600px){
+    .bg-deco.tl{width:54px;height:54px}
+    .bg-deco.tr{width:42px;height:42px}
+    .bg-deco.bl{width:42px;height:42px}
+    .bg-deco.br{width:66px;height:66px}
+  }
+  .container{
+    max-width:760px;
+    margin:0 auto;
+    padding:60px 24px 80px;
+    position:relative;
+    z-index:1;
+  }
+
+  /* 헤더 */
+  header{text-align:center;margin-bottom:56px}
+  .logo{
+    display:inline-flex;align-items:center;gap:14px;
+    background:var(--accent-2);color:#fff;
+    padding:14px 28px;border-radius:999px;
+    font-weight:800;font-size:22px;letter-spacing:-.01em;
+    margin-bottom:24px;
+    box-shadow:0 12px 32px rgba(47,94,78,.25);
+  }
+  .logo .ico{font-size:24px}
+  h1{
+    font-size:48px;font-weight:900;letter-spacing:-.02em;
+    margin-bottom:14px;line-height:1.2;
+  }
+  h1 .accent{
+    color:var(--accent);
+    background-image:linear-gradient(transparent 64%, rgba(233,122,74,.30) 64%);
+    background-repeat:no-repeat;padding:0 6px;
+  }
+  .subtitle{
+    font-size:18px;color:var(--ink-soft);
+    max-width:540px;margin:0 auto;
+  }
+
+  /* 섹션 공통 */
+  section{margin-bottom:48px}
+  h2{
+    font-size:28px;font-weight:800;letter-spacing:-.01em;
+    margin-bottom:20px;display:flex;align-items:center;gap:10px;
+  }
+  h2 .num{
+    width:36px;height:36px;border-radius:50%;
+    background:var(--accent-2);color:#fff;
+    display:inline-flex;align-items:center;justify-content:center;
+    font-size:18px;font-weight:800;
+  }
+
+  /* 문의하기 카드 */
+  .contact-card{
+    background:var(--card-bg);
+    border-radius:20px;padding:32px;
+    box-shadow:0 18px 44px rgba(31,42,36,.08);
+    border:1.5px solid var(--border);
+  }
+  .contact-row{
+    display:flex;align-items:center;gap:18px;
+    padding:16px 0;border-bottom:1px solid #F0EDE3;
+  }
+  .contact-row:last-child{border-bottom:none}
+  .contact-icon{
+    width:52px;height:52px;border-radius:14px;
+    background:#FBEBD8;color:var(--accent);
+    display:flex;align-items:center;justify-content:center;
+    font-size:24px;flex-shrink:0;
+  }
+  .contact-icon.green{background:#E6F2E5;color:var(--accent-2)}
+  .contact-info{flex:1;min-width:0}
+  .contact-label{
+    font-size:13px;color:var(--ink-soft);
+    font-weight:600;letter-spacing:.05em;text-transform:uppercase;
+    margin-bottom:2px;
+  }
+  .contact-value{
+    font-size:18px;font-weight:700;
+    color:var(--ink);text-decoration:none;
+    word-break:break-all;
+  }
+  .contact-value:hover{color:var(--accent)}
+  .contact-note{
+    font-size:14px;color:var(--ink-soft);
+    margin-top:4px;
+  }
+
+  /* FAQ */
+  .faq-list{display:flex;flex-direction:column;gap:12px}
+  details{
+    background:var(--card-bg);
+    border-radius:16px;padding:0;
+    border:1.5px solid var(--border);
+    box-shadow:0 6px 18px rgba(31,42,36,.04);
+    overflow:hidden;
+    transition:box-shadow .2s;
+  }
+  details[open]{box-shadow:0 12px 32px rgba(31,42,36,.08)}
+  summary{
+    padding:18px 22px;
+    font-size:17px;font-weight:700;
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:space-between;
+    list-style:none;
+    user-select:none;
+  }
+  summary::-webkit-details-marker{display:none}
+  summary::after{
+    content:"+";
+    font-size:24px;font-weight:300;color:var(--accent);
+    margin-left:12px;flex-shrink:0;
+    transition:transform .2s;
+  }
+  details[open] summary::after{
+    content:"−";
+  }
+  .answer{
+    padding:0 22px 22px;
+    font-size:15px;line-height:1.7;color:var(--ink-soft);
+  }
+  .answer p{margin-bottom:8px}
+  .answer p:last-child{margin-bottom:0}
+  .answer ul{padding-left:20px;margin:8px 0}
+  .answer li{margin-bottom:4px}
+  .answer strong{color:var(--ink);font-weight:700}
+
+  /* 정보 카드 */
+  .info-card{
+    background:#EAF3EE;
+    border-radius:16px;padding:20px 24px;
+    border-left:5px solid var(--accent-2);
+    margin-top:20px;
+  }
+  .info-card p{
+    font-size:14px;color:var(--ink-soft);
+    margin:0;line-height:1.6;
+  }
+  .info-card strong{color:var(--ink);font-weight:700}
+
+  /* 푸터 */
+  footer{
+    text-align:center;
+    margin-top:64px;padding-top:32px;
+    border-top:1.5px solid rgba(255,255,255,.4);
+    color:var(--ink-soft);font-size:13px;
+  }
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 8px}
+  footer a:hover{color:var(--accent)}
+  .copyright{margin-top:10px;font-size:12px;opacity:.7}
+
+  /* 개인정보처리방침 */
+  #privacy{display:block;scroll-margin-top:20px}
+  .privacy-content{
+    background:var(--card-bg);
+    border-radius:20px;padding:32px;
+    border:1.5px solid var(--border);
+    box-shadow:0 18px 44px rgba(31,42,36,.08);
+    font-size:14px;line-height:1.7;color:var(--ink-soft);
+  }
+  .privacy-content h3{
+    color:var(--ink);font-size:17px;font-weight:800;
+    margin-top:24px;margin-bottom:8px;
+  }
+  .privacy-content h3:first-child{margin-top:0}
+  .privacy-content ul{padding-left:20px;margin:8px 0}
+  .privacy-content li{margin-bottom:4px}
+  .privacy-content strong{color:var(--ink);font-weight:700}
+
+  /* 모바일 */
+  @media (max-width:600px){
+    .container{padding:40px 20px 60px}
+    h1{font-size:36px}
+    .subtitle{font-size:16px}
+    h2{font-size:24px}
+    .contact-card,.privacy-content{padding:22px}
+    .contact-row{gap:14px}
+    .contact-icon{width:46px;height:46px;font-size:22px}
+    .contact-value{font-size:16px}
+    summary{padding:16px 18px;font-size:16px}
+    .answer{padding:0 18px 18px}
+  }
+</style>
+</head>
+<body>
+<div class="bg-deco tl"></div>
+<div class="bg-deco tr"></div>
+<div class="bg-deco bl"></div>
+<div class="bg-deco br"></div>
+
+<div class="container">
+
+  <header>
+    <div class="logo"><span class="ico">🥬</span> BIFE</div>
+    <h1>고객지원 <span class="accent">센터</span></h1>
+    <p class="subtitle">
+      BIFE를 사용해주셔서 감사합니다.<br>
+      궁금한 점이나 문제가 있으시면 언제든 문의해 주세요.
+    </p>
+  </header>
+
+  <!-- 1. 문의하기 -->
+  <section>
+    <h2><span class="num">1</span> 문의하기</h2>
+    <div class="contact-card">
+      <div class="contact-row">
+        <div class="contact-icon">✉️</div>
+        <div class="contact-info">
+          <div class="contact-label">이메일 문의</div>
+          <a class="contact-value" href="mailto:bitesafeteam@gmail.com?subject=BIFE%20%EB%AC%B8%EC%9D%98">bitesafeteam@gmail.com</a>
+          <div class="contact-note">평일 영업일 기준 1~2일 내 답변드립니다</div>
+        </div>
+      </div>
+
+      <div class="contact-row">
+        <div class="contact-icon green">🐛</div>
+        <div class="contact-info">
+          <div class="contact-label">버그 제보 / 기능 제안</div>
+          <a class="contact-value" href="mailto:bitesafeteam@gmail.com?subject=%5B%EB%B2%84%EA%B7%B8%2F%EC%A0%9C%EC%95%88%5D%20">bitesafeteam@gmail.com</a>
+          <div class="contact-note">제목에 [버그] 또는 [제안]을 적어주세요</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <p>
+        💡 <strong>문의 시 함께 보내주시면 빠르게 도와드릴 수 있어요!</strong><br>
+        • 사용 중인 iPhone 모델 (예: iPhone 15 Pro)<br>
+        • iOS 버전 (설정 → 일반 → 정보)<br>
+        • BIFE 앱 버전<br>
+        • 문제 발생 화면 캡처
+      </p>
+    </div>
+  </section>
+
+  <!-- 2. 자주 묻는 질문 -->
+  <section>
+    <h2><span class="num">2</span> 자주 묻는 질문</h2>
+    <div class="faq-list">
+
+      <details>
+        <summary>영수증 스캔이 잘 안 돼요</summary>
+        <div class="answer">
+          <p>다음을 확인해 보세요:</p>
+          <ul>
+            <li><strong>밝은 곳</strong>에서 촬영하세요 (그림자 X)</li>
+            <li>영수증을 <strong>구김 없이 평평하게</strong> 펴주세요</li>
+            <li>영수증 <strong>전체</strong>가 화면 안에 들어오도록</li>
+            <li>카메라와 <strong>20~30cm 거리</strong>가 적당해요</li>
+          </ul>
+          <p>그래도 인식이 잘 안 되면 영수증 사진과 함께 메일로 문의해 주세요.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>소비기한 알림이 오지 않아요</summary>
+        <div class="answer">
+          <p>iPhone 알림 설정과 BIFE 앱 내 설정을 모두 확인해 주세요:</p>
+          <p><strong>1) iPhone 알림 설정</strong></p>
+          <ul>
+            <li>설정 → 알림 → BIFE → <strong>"알림 허용" 켜짐</strong></li>
+            <li>설정 → 집중 모드 → 방해금지 모드가 켜져 있는지 확인</li>
+          </ul>
+          <p><strong>2) BIFE 앱 내 알림 설정</strong></p>
+          <ul>
+            <li>BIFE 앱 → <strong>마이</strong> → <strong>알림 설정</strong> → <strong>수신할 알람 설정</strong></li>
+          </ul>
+          <p>모두 정상인데도 알림이 안 오면 앱을 한 번 종료했다가 다시 켜보세요.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>레시피 추천이 잘 안 맞아요</summary>
+        <div class="answer">
+          <p>BIFE는 <strong>현재 보유 중인 재료</strong>를 기준으로 일치율을 계산합니다.</p>
+          <ul>
+            <li>냉장고 안 재료가 정확히 등록되어 있는지 확인</li>
+            <li>소비기한이 지난 재료는 삭제</li>
+            <li>재료를 더 많이 등록할수록 추천이 정확해져요</li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary>장바구니에 담은 재료가 자동으로 사라져요</summary>
+        <div class="answer">
+          <p>장바구니에 추가된 재료는 <strong>구매 완료 처리</strong>되면 자동으로 냉장고로 이동합니다.</p>
+          <p>혹시 의도하지 않은 동작이라면 영수증 등록 또는 수동 등록 시점을 확인해 보세요.</p>
+        </div>
+      </details>
+
+      <details>
+        <summary>계정을 삭제하고 싶어요</summary>
+        <div class="answer">
+          <p>앱 내에서 <strong>마이 → 계정 설정 → 계정 삭제</strong> 메뉴를 통해 직접 진행하실 수 있습니다.</p>
+          <p>계정을 삭제하시면 서버에 보관된 모든 개인정보가 <strong>즉시 파기</strong>됩니다. 단, 관계 법령에 따라 보존 의무가 있는 일부 정보(거래 기록 등)는 분리 보관 후 보유 기간 경과 시 파기됩니다.</p>
+          <p>삭제에 어려움이 있으시면 <a href="mailto:bitesafeteam@gmail.com" style="color:var(--accent);font-weight:700">bitesafeteam@gmail.com</a> 으로 문의해 주세요.</p>
+        </div>
+      </details>
+
+    </div>
+  </section>
+
+  <!-- 3. 개인정보처리방침 -->
+  <section id="privacy">
+    <h2><span class="num">3</span> 개인정보처리방침</h2>
+    <div class="privacy-content">
+      <h3>1. 수집하는 정보</h3>
+      <p>BIFE는 사용자에게 더 나은 서비스를 제공하기 위해 다음 정보를 수집할 수 있습니다:</p>
+      <ul>
+        <li><strong>사용자 입력 데이터</strong>: 냉장고 재료 정보, 장보기 리스트</li>
+        <li><strong>영수증 이미지</strong>: 인식 처리 후 즉시 폐기 (서버 저장 X)</li>
+        <li><strong>앱 사용 통계</strong>: 익명화된 크래시 리포트, 기능 사용 빈도</li>
+      </ul>
+
+      <h3>2. 정보 이용 목적</h3>
+      <ul>
+        <li>앱의 핵심 기능 제공 (냉장고 관리, 레시피 추천, 알림)</li>
+        <li>서비스 품질 개선 및 버그 수정</li>
+        <li>사용자 문의 응대</li>
+      </ul>
+
+      <h3>3. 정보 보관 및 파기</h3>
+      <p>이용자가 입력·생성한 모든 데이터(식재료, 가계부 기록, 가족 그룹 정보 등)는 <strong>Supabase(AWS) 클라우드 데이터베이스</strong>에 안전하게 저장됩니다. 회원 탈퇴 시 서버에 보관된 개인정보는 <strong>즉시 파기</strong>되며, 단 「전자상거래법」 등 관계 법령에 따라 보존 의무가 있는 정보(거래 기록 5년, 분쟁 처리 기록 3년 등)는 분리 보관 후 보유 기간 경과 시 파기됩니다.</p>
+
+      <h3>4. 제3자 제공</h3>
+      <p>BIFE는 사용자의 개인정보를 제3자에게 판매하거나 공유하지 않습니다.</p>
+
+      <h3>5. 사용자 권리</h3>
+      <p>사용자는 언제든지 다음 권리를 행사할 수 있습니다:</p>
+      <ul>
+        <li>저장된 정보 열람 및 수정 (앱 내에서 직접)</li>
+        <li>계정 및 정보 삭제 (앱 내 <strong>마이 → 계정 설정 → 계정 삭제</strong>)</li>
+        <li>관련 문의: bitesafeteam@gmail.com</li>
+      </ul>
+
+      <h3>6. 변경 사항</h3>
+      <p>본 방침은 법령 변경 또는 서비스 개선에 따라 수정될 수 있으며, 변경 시 앱 내 공지 또는 본 페이지를 통해 안내드립니다.</p>
+
+      <h3>7. 시행일</h3>
+      <p>본 개인정보처리방침은 <strong>2026년 5월 7일</strong>부터 시행됩니다.</p>
+    </div>
+  </section>
+
+  <footer>
+    <div>
+      <a href="#privacy">개인정보처리방침</a> ·
+      <a href="mailto:bitesafeteam@gmail.com">문의하기</a>
+    </div>
+    <div class="copyright">© 2026 BIFE. All rights reserved.</div>
+  </footer>
+
+</div>
+</body>
+</html>
