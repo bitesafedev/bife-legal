@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>바이프 (BIFE) — 똑똑한 냉장고 관리 앱</title>
+<meta name="description" content="바이프는 영수증 한 장으로 끝나는 냉장고 관리, 레시피 추천, 가계부, 가족 공유 앱을 만드는 1인 사업자입니다.">
+<meta name="author" content="바이프 (BIFE)">
+<meta property="og:title" content="바이프 (BIFE) — 똑똑한 냉장고 관리 앱">
+<meta property="og:description" content="냉장고 재료부터 레시피, 가계부까지. 가족과 함께 똑똑하게 관리하세요.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://bitesafedev.github.io/bife-legal/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-top:#A6D4D6;
+    --bg-bot:#5CBFB9;
+    --ink:#1F2A24;
+    --ink-soft:#5b6660;
+    --accent:#E97A4A;
+    --accent-2:#2F5E4E;
+    --pill:#1F4A3A;
+    --card-bg:#fff;
+    --border:#E5E0D2;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;background:var(--bg-top)}
+  body{
+    background:linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bot) 100%);
+    background-attachment:fixed;
+    color:var(--ink);
+    font-family:"Noto Sans KR",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.6;
+    min-height:100vh;
+    position:relative;
+    overflow-x:hidden;
+  }
+
+  /* 배경 장식 */
+  .bg-deco{
+    position:fixed;
+    border-radius:22px;
+    background:rgba(255,255,255,.18);
+    pointer-events:none;
+    z-index:0;
+  }
+  .bg-deco.tl{top:5%;left:5%;width:78px;height:78px}
+  .bg-deco.tr{top:9%;right:6%;width:62px;height:62px;background:rgba(255,255,255,.14)}
+  .bg-deco.bl{bottom:7%;left:7%;width:60px;height:60px;background:rgba(255,255,255,.16)}
+  .bg-deco.br{bottom:4%;right:6%;width:96px;height:96px;background:rgba(255,255,255,.20)}
+  @media (max-width:600px){
+    .bg-deco.tl{width:54px;height:54px}
+    .bg-deco.tr{width:42px;height:42px}
+    .bg-deco.bl{width:42px;height:42px}
+    .bg-deco.br{width:66px;height:66px}
+  }
+
+  .container{
+    max-width:840px;
+    margin:0 auto;
+    padding:60px 24px 80px;
+    position:relative;
+    z-index:1;
+  }
+
+  /* 헤더 */
+  header{text-align:center;margin-bottom:64px}
+  .logo{
+    display:inline-flex;align-items:center;gap:14px;
+    background:var(--accent-2);color:#fff;
+    padding:14px 28px;border-radius:999px;
+    font-weight:800;font-size:22px;letter-spacing:-.01em;
+    margin-bottom:28px;
+    box-shadow:0 12px 32px rgba(47,94,78,.25);
+  }
+  .logo .ico{font-size:24px}
+  h1{
+    font-size:56px;font-weight:900;letter-spacing:-.02em;
+    margin-bottom:16px;line-height:1.15;
+  }
+  h1 .accent{
+    color:var(--accent);
+    background-image:linear-gradient(transparent 64%, rgba(233,122,74,.30) 64%);
+    background-repeat:no-repeat;padding:0 6px;
+  }
+  .subtitle{
+    font-size:19px;color:var(--ink-soft);
+    max-width:600px;margin:0 auto 32px;
+  }
+
+  /* CTA 버튼 그룹 */
+  .cta-group{
+    display:flex;flex-wrap:wrap;gap:12px;justify-content:center;
+    margin-top:8px;
+  }
+  .cta{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:14px 24px;border-radius:14px;
+    font-weight:700;font-size:15px;
+    text-decoration:none;
+    transition:transform .15s, box-shadow .15s;
+    border:1.5px solid transparent;
+  }
+  .cta-primary{
+    background:var(--ink);color:#fff;
+    box-shadow:0 8px 22px rgba(31,42,36,.25);
+  }
+  .cta-primary:hover{transform:translateY(-1px);box-shadow:0 12px 28px rgba(31,42,36,.3)}
+  .cta-secondary{
+    background:#fff;color:var(--ink);border-color:var(--border);
+  }
+  .cta-secondary:hover{transform:translateY(-1px)}
+  .cta .ico{font-size:18px}
+
+  /* 섹션 공통 */
+  section{margin-bottom:56px}
+  h2{
+    font-size:30px;font-weight:800;letter-spacing:-.01em;
+    margin-bottom:24px;display:flex;align-items:center;gap:12px;
+  }
+  h2 .num{
+    width:36px;height:36px;border-radius:50%;
+    background:var(--accent-2);color:#fff;
+    display:inline-flex;align-items:center;justify-content:center;
+    font-size:18px;font-weight:800;
+  }
+
+  /* 기능 카드 */
+  .feature-grid{
+    display:grid;grid-template-columns:repeat(2, 1fr);gap:16px;
+  }
+  .feature{
+    background:var(--card-bg);
+    border-radius:18px;padding:24px;
+    border:1.5px solid var(--border);
+    box-shadow:0 12px 30px rgba(31,42,36,.06);
+  }
+  .feature .emo{
+    font-size:30px;margin-bottom:10px;display:block;
+  }
+  .feature h3{
+    font-size:18px;font-weight:800;
+    margin-bottom:6px;color:var(--ink);
+  }
+  .feature p{
+    font-size:14px;color:var(--ink-soft);line-height:1.55;
+  }
+  @media (max-width:600px){
+    .feature-grid{grid-template-columns:1fr}
+  }
+
+  /* 사업자 정보 카드 */
+  .biz-card{
+    background:var(--card-bg);
+    border-radius:20px;padding:32px;
+    border:1.5px solid var(--border);
+    box-shadow:0 18px 44px rgba(31,42,36,.08);
+  }
+  .biz-row{
+    display:flex;gap:18px;
+    padding:14px 0;border-bottom:1px solid #F0EDE3;
+    align-items:flex-start;
+  }
+  .biz-row:last-child{border-bottom:none}
+  .biz-label{
+    flex:0 0 130px;
+    font-size:13px;color:var(--ink-soft);
+    font-weight:600;letter-spacing:.05em;text-transform:uppercase;
+    padding-top:2px;
+  }
+  .biz-value{
+    flex:1;
+    font-size:16px;font-weight:600;
+    color:var(--ink);word-break:break-all;
+  }
+  .biz-value a{color:var(--ink);text-decoration:none;border-bottom:1.5px solid var(--accent)}
+  .biz-value a:hover{color:var(--accent)}
+  @media (max-width:600px){
+    .biz-card{padding:22px}
+    .biz-row{flex-direction:column;gap:4px;padding:12px 0}
+    .biz-label{flex:initial}
+  }
+
+  /* 빠른 링크 */
+  .quick-links{
+    display:grid;grid-template-columns:repeat(2,1fr);gap:12px;
+  }
+  .quick-link{
+    background:var(--card-bg);
+    border-radius:14px;padding:18px 22px;
+    border:1.5px solid var(--border);
+    text-decoration:none;color:var(--ink);
+    display:flex;align-items:center;gap:14px;
+    transition:transform .15s, box-shadow .15s, border-color .15s;
+  }
+  .quick-link:hover{
+    transform:translateY(-1px);
+    border-color:var(--accent);
+    box-shadow:0 10px 24px rgba(31,42,36,.08);
+  }
+  .quick-link .ico{
+    width:42px;height:42px;border-radius:12px;
+    background:#FBEBD8;color:var(--accent);
+    display:flex;align-items:center;justify-content:center;
+    font-size:20px;flex-shrink:0;
+  }
+  .quick-link .info .title{
+    font-size:15px;font-weight:700;margin-bottom:2px;
+  }
+  .quick-link .info .desc{
+    font-size:12px;color:var(--ink-soft);
+  }
+  @media (max-width:600px){
+    .quick-links{grid-template-columns:1fr}
+  }
+
+  /* 푸터 */
+  footer{
+    text-align:center;
+    margin-top:72px;padding-top:32px;
+    border-top:1.5px solid rgba(255,255,255,.4);
+    color:var(--ink-soft);font-size:13px;
+  }
+  footer a{color:var(--ink-soft);text-decoration:none;margin:0 8px}
+  footer a:hover{color:var(--accent)}
+  .copyright{margin-top:10px;font-size:12px;opacity:.7}
+
+  /* 모바일 */
+  @media (max-width:600px){
+    .container{padding:40px 20px 60px}
+    h1{font-size:38px}
+    .subtitle{font-size:16px}
+    h2{font-size:24px}
+  }
+</style>
+</head>
+<body>
+<div class="bg-deco tl"></div>
+<div class="bg-deco tr"></div>
+<div class="bg-deco bl"></div>
+<div class="bg-deco br"></div>
+
+<div class="container">
+
+  <header>
+    <div class="logo"><span class="ico">🥬</span> 바이프 (BIFE)</div>
+    <h1>똑똑한 냉장고를<br>가족과 <span class="accent">함께</span></h1>
+    <p class="subtitle">
+      영수증 한 장으로 끝나는 냉장고 관리, 보유 재료 기반 레시피 추천,
+      그리고 식료품 가계부까지 — 한 앱에서.
+    </p>
+    <div class="cta-group">
+      <a class="cta cta-primary" href="https://apps.apple.com/app/id6761987034" target="_blank" rel="noopener">
+        <span class="ico">🍎</span> App Store
+      </a>
+      <a class="cta cta-secondary" href="mailto:bitesafeteam@gmail.com">
+        <span class="ico">✉️</span> 문의하기
+      </a>
+    </div>
+  </header>
+
+  <!-- 1. 핵심 기능 -->
+  <section>
+    <h2><span class="num">1</span> 핵심 기능</h2>
+    <div class="feature-grid">
+      <div class="feature">
+        <span class="emo">🧾</span>
+        <h3>영수증 한 장이면 끝</h3>
+        <p>장 본 영수증 한 장만 찍으면 재료가 자동으로 냉장고에 들어가고 가계부에 기록됩니다.</p>
+      </div>
+      <div class="feature">
+        <span class="emo">🍳</span>
+        <h3>보유 재료 기반 레시피</h3>
+        <p>지금 냉장고에 있는 재료로 만들 수 있는 요리를 일치율 순으로 추천합니다.</p>
+      </div>
+      <div class="feature">
+        <span class="emo">📊</span>
+        <h3>식료품 가계부</h3>
+        <p>월별 식비 흐름과 카테고리별 지출 비중을 한눈에. 절약 포인트를 발견하세요.</p>
+      </div>
+      <div class="feature">
+        <span class="emo">👨‍👩‍👧</span>
+        <h3>가족 공유</h3>
+        <p>같은 냉장고를 가족이 함께 실시간으로 관리. 중복 구매를 막고 효율을 높입니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. 사업자 정보 -->
+  <section>
+    <h2><span class="num">2</span> 사업자 정보</h2>
+    <div class="biz-card">
+      <div class="biz-row">
+        <div class="biz-label">상호</div>
+        <div class="biz-value">바이프 (BIFE)</div>
+      </div>
+      <div class="biz-row">
+        <div class="biz-label">대표자</div>
+        <div class="biz-value">노동훈</div>
+      </div>
+      <div class="biz-row">
+        <div class="biz-label">사업 분야</div>
+        <div class="biz-value">모바일 응용 소프트웨어 개발 · 식생활 관리 서비스</div>
+      </div>
+      <div class="biz-row">
+        <div class="biz-label">소재지</div>
+        <div class="biz-value">경기도 고양시 덕양구 원흥1로 35</div>
+      </div>
+      <div class="biz-row">
+        <div class="biz-label">이메일</div>
+        <div class="biz-value"><a href="mailto:bitesafeteam@gmail.com">bitesafeteam@gmail.com</a></div>
+      </div>
+      <div class="biz-row">
+        <div class="biz-label">서비스</div>
+        <div class="biz-value">BIFE (iOS / Android 모바일 앱)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. 빠른 링크 -->
+  <section>
+    <h2><span class="num">3</span> 자세히 보기</h2>
+    <div class="quick-links">
+      <a class="quick-link" href="terms.html">
+        <div class="ico">📜</div>
+        <div class="info">
+          <div class="title">이용약관</div>
+          <div class="desc">서비스 이용 시 적용되는 약관</div>
+        </div>
+      </a>
+      <a class="quick-link" href="privacy.html">
+        <div class="ico">🔒</div>
+        <div class="info">
+          <div class="title">개인정보처리방침</div>
+          <div class="desc">수집하는 정보와 이용 방식</div>
+        </div>
+      </a>
+      <a class="quick-link" href="support.html">
+        <div class="ico">💬</div>
+        <div class="info">
+          <div class="title">고객지원</div>
+          <div class="desc">자주 묻는 질문과 문의 방법</div>
+        </div>
+      </a>
+      <a class="quick-link" href="account-deletion.html">
+        <div class="ico">🗑️</div>
+        <div class="info">
+          <div class="title">계정 삭제 안내</div>
+          <div class="desc">계정 삭제 절차와 데이터 처리</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <div>
+      <a href="terms.html">이용약관</a> ·
+      <a href="privacy.html">개인정보처리방침</a> ·
+      <a href="support.html">고객지원</a> ·
+      <a href="mailto:bitesafeteam@gmail.com">문의</a>
+    </div>
+    <div class="copyright">© 2026 바이프 (BIFE). All rights reserved.</div>
+  </footer>
+
+</div>
+</body>
+</html>
